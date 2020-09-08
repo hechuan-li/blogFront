@@ -1,30 +1,58 @@
-import Vue from "vue";
-import VueRouter from "vue-router";
-import Home from "../views/Home.vue";
+import Vue from 'vue'
+import VueRouter from 'vue-router'
+import CommonLayout from '../components/CommonLayout.vue'
 
-Vue.use(VueRouter);
+Vue.use(VueRouter)
 
 const routes = [
-  {
-    path: "/",
-    name: "Home",
-    component: Home
-  },
-  {
-    path: "/about",
-    name: "About",
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () =>
-      import(/* webpackChunkName: "about" */ "../views/About.vue")
-  }
-];
+	{
+		path: '/',
+		component: CommonLayout,
+		children: [
+			{
+				path: '',
+				component: () => import('@/views/Home.vue'),
+			},
+			{
+				path: '/detail/:id',
+				component: () => import('@/views/DetailView.vue'),
+			},
+			{
+				path: '/user',
+				component: () => import('@/views/UserPage.vue'),
+			},
+			{
+				path: '/blog',
+				name:'article',
+				component: () => import('@/views/Blogs.vue'),
+			},
+			{
+				path: '/blog/addArticle/:id',
+				name: 'addArticle',
+				component: () => import('@/views/AddArticle.vue'),
+			},
+			{
+				path: '/spider',
+				component: () => import('@/views/Spiders.vue'),
+			},
+			{
+				path: '/todo',
+				component: () => import('@/views/ToDo.vue'),
+			},
+		],
+	},
+	{
+		path: '/login',
+		component: () => import('@/views/Login.vue'),
+	},
+	{
+		path: '/signup',
+		component: () => import('@/views/SignUp.vue'),
+	},
+]
 
 const router = new VueRouter({
-  mode: "history",
-  base: process.env.BASE_URL,
-  routes
-});
+	routes,
+})
 
-export default router;
+export default router
