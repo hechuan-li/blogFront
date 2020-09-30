@@ -1,35 +1,40 @@
 <template>
   <div class="list ">
-    <div class="card" v-for="item in article" :key='item.id'>
-        <p class="title" @click='handleClick(item.id)'>{{item.title}}</p>
-       <p class="date">{{item.publish_date}}</p>
-       <p class="content">{{item.content}}</p>
+    <div class="card" v-for="item in article" :key="item.id"> 
+      <p class="title" @click="handleClick(item.id)">{{ item.title }}</p>
+      <p class="date">{{ item.publish_date }}</p>
+      <p class="content">{{ item.content }}</p>
     </div>
-   
+    <div class="mobilelist">
+      <ul class="infinite-list" style="overflow:auto">
+        <li v-for="item in article" class="infinite-list-item" :key="item.id">{{ item.title }}</li>
+      </ul>
+    </div>
   </div>
 </template>
 
 <script>
 export default {
-  data: function(){
+  data: function() {
     return {
-      article:[]
-    }
+      article: [],
+      count: 0
+    };
   },
   methods: {
-    handleClick(id){
-      this.$router.push('/detail/'+id)
+    handleClick(id) {
+      this.$router.push("/detail/" + id);
     },
-    getAllArticle(){
-      this.$axios.get('/api/article/allArticle').then(value=>{
-        if(value.data.code === 0){
-          this.article = value.data.list
+    getAllArticle() {
+      this.$axios.get("/api/article/allArticle").then(value => {
+        if (value.data.code === 0) {
+          this.article = value.data.list;
         }
-      })
+      });
     }
   },
-  created(){
-    this.getAllArticle()
+  created() {
+    this.getAllArticle();
   }
 };
 </script>
@@ -41,25 +46,25 @@ export default {
     margin-top: 15px;
     text-align: left;
     border-bottom: 1px solid #eee;
-    
+
     .title {
       font-size: 26px;
       color: #0085a1;
       font-weight: 600;
     }
-    .date{
+    .date {
       font-style: italic;
-      font-family: Lora,"Times New Roman",serif;
+      font-family: Lora, "Times New Roman", serif;
       color: #808080;
       margin-top: 10px;
     }
-    .content{
+    .content {
       width: 1100px;
       display: inline-block;
       height: 30px;
       overflow: hidden;
-      white-space:nowrap;
-      text-overflow:ellipsis;
+      white-space: nowrap;
+      text-overflow: ellipsis;
     }
   }
 }

@@ -1,7 +1,7 @@
 <template>
   <div class="header">
     <header>
-      <div class="wraper">
+      <div class="wraper" v-show="this.screen === 'pc'">
         <el-row>
           <el-col :span="4">
             <div class="logo">
@@ -17,7 +17,7 @@
                 @select="handleSelect"
                 text-color="#fefefe"
                 active-text-color="#fff"
-                background-color='rgba(10, 8, 8, 0.6)'
+                background-color="rgba(10, 8, 8, 0.6)"
               >
                 <el-menu-item index="1">
                   <router-link to="/"
@@ -55,6 +55,18 @@
           >
         </el-row>
       </div>
+      <div class="wraper" v-show="this.screen === 'mobile'">
+        <el-dropdown size="mini" split-button type="primary">
+          超小尺寸
+          <el-dropdown-menu slot="dropdown">
+            <el-dropdown-item>黄金糕</el-dropdown-item>
+            <el-dropdown-item>狮子头</el-dropdown-item>
+            <el-dropdown-item>螺蛳粉</el-dropdown-item>
+            <el-dropdown-item>双皮奶</el-dropdown-item>
+            <el-dropdown-item>蚵仔煎</el-dropdown-item>
+          </el-dropdown-menu>
+        </el-dropdown>
+      </div>
     </header>
   </div>
 </template>
@@ -65,7 +77,8 @@ export default {
   data() {
     return {
       activeIndex: "1",
-      user: ""
+      user: "",
+      screen: ""
     };
   },
   methods: {
@@ -91,6 +104,14 @@ export default {
   },
   created: function() {
     this.user = sessionStorage.getItem("username");
+    window.onresize = () => {
+      let currentWidth = document.body.clientWidth;
+      if (currentWidth >= 750) {
+        this.screen = "pc";
+      } else if (currentWidth < 750) {
+        this.screen = "mobile";
+      }
+    };
   }
 };
 </script>
@@ -124,22 +145,21 @@ header {
     display: flex;
     flex-flow: row nowrap;
     justify-content: flex-end;
-    
+
     ul {
       border-bottom: none;
-      background-color: rgba(10, 8, 8, 0.1)!important;
+      background-color: rgba(10, 8, 8, 0.1) !important;
       li {
         padding: 0;
-        .el-menu-item{
-          .is-active{
-            background: #000!important; 
+        .el-menu-item {
+          .is-active {
+            background: #000 !important;
           }
         }
         a {
           display: inline-block;
           padding: 15px 20px;
           background-color: rgba(10, 8, 8, 0.1);
-          
         }
       }
     }

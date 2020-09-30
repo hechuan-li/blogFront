@@ -122,6 +122,7 @@ export default {
   height: 500px;
   margin: 150px auto;
   width: 30%;
+  min-width: 400px;
   padding-top: 50px;
   &-main {
     padding: 20px;
