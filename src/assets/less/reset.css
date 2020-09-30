@@ -12,3 +12,12 @@ body {
   /*火狐下隐藏滚动条*/
   overflow: -moz-scrollbars-none;
 }
+html a,
+body a {
+  text-decoration: none;
+  color: #333;
+}
+html .router-link-active,
+body .router-link-active {
+  text-decoration: none;
+}

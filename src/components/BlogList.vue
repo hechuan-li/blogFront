@@ -5,15 +5,11 @@
       <p class="date">{{ item.publish_date }}</p>
       <p class="content">{{ item.content }}</p>
     </div>
-    <div class="mobilelist">
-      <ul class="infinite-list" style="overflow:auto">
-        <li v-for="item in article" class="infinite-list-item" :key="item.id">{{ item.title }}</li>
-      </ul>
-    </div>
   </div>
 </template>
 
 <script>
+// import getWidth from '../utiles/checkWidth'
 export default {
   data: function() {
     return {
@@ -31,10 +27,13 @@ export default {
           this.article = value.data.list;
         }
       });
-    }
+    },
+    
   },
   created() {
     this.getAllArticle();
+    console.log(this.$checkDevice.getDevice(document.body.clientWidth));
+    // console.log(this.$checkDevice.getResize());
   }
 };
 </script>

@@ -5,7 +5,7 @@
         <h1>{{ this.article.title }}</h1>
       </div>
       
-        <span class="author"><i class="el-icon-user-solid">    Author: {{this.authInfo.nickname}}</i></span>
+        <span class="author"><i class="el-icon-user-solid">    Author: {{this.authInfo}}</i></span>
       
       <div class="currentDate">
         <span class="date"
@@ -43,10 +43,7 @@ export default {
         publish_date:'',
         user_id: Number
       },
-      authInfo:{
-        username:'',
-        nickname:''
-      }
+      authInfo:''
     };
   },
   methods: {
@@ -57,9 +54,8 @@ export default {
         }
       })
       this.article = detailInfo.data.article
-      let authInfo =  await this.$axios.get('/api/users/authorInfo',{params:{id:this.article.user_id}})
-     
-      this.authInfo = authInfo.data.list
+      this.authInfo = detailInfo.data.author
+      console.log(detailInfo)
     }
   },
   created() {

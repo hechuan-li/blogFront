@@ -48,22 +48,39 @@
               </el-menu>
             </div>
           </el-col>
-          <el-col :span="2" class="logout"
-            ><el-button type="danger" size="mini" @click="logout"
-              >Log out</el-button
-            ></el-col
-          >
+          <el-col :span="2" class="logout" v-if="this.user">
+            <el-button type="danger" size="mini" @click="logout">Log out</el-button>
+          </el-col>
+          <el-col :span="2" class="logout" v-else>
+            <el-button type="primary" size="mini" @click="login"> Login </el-button>
+          </el-col>
         </el-row>
       </div>
-      <div class="wraper" v-show="this.screen === 'mobile'">
-        <el-dropdown size="mini" split-button type="primary">
-          超小尺寸
+      <div class="mobileWrapper" v-show="this.screen === 'mobile'">
+        <el-dropdown>
+          <span class="el-dropdown-link"><i class="el-icon-s-fold"></i> </span>
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item>黄金糕</el-dropdown-item>
-            <el-dropdown-item>狮子头</el-dropdown-item>
-            <el-dropdown-item>螺蛳粉</el-dropdown-item>
-            <el-dropdown-item>双皮奶</el-dropdown-item>
-            <el-dropdown-item>蚵仔煎</el-dropdown-item>
+            <el-dropdown-item
+              ><router-link to="/"
+                ><i class="el-icon-s-home"></i>Home</router-link
+              ></el-dropdown-item
+            >
+            <el-dropdown-item
+              ><router-link to="/blog"
+                ><i class="el-icon-document-copy"></i>My Article</router-link
+              ></el-dropdown-item
+            >
+            <el-dropdown-item
+              ><router-link to="/login" v-if="isSignIn === 0"
+                ><i class="el-icon-user-solid"></i>User</router-link
+              >
+              <router-link to="/user" v-else-if="isSignIn === 1"
+                ><i class="el-icon-user-solid"></i>{{ user }}</router-link
+              >
+            </el-dropdown-item>
+            <el-dropdown-item>
+              <i class="el-icon-switch-button" @click="logout">Log out</i>
+            </el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
       </div>
@@ -87,14 +104,37 @@ export default {
     },
     logout() {
       this.$Cookie.remove("token");
+      this.$Cookie.remove("username");
+      this.$Cookie.remove("head_img");
       location.reload();
+    },
+    login(){
+      this.$router.push('/login')
     },
     goSpider() {
       this.$router.push("/spider");
     },
     goToDo() {
       this.$router.push("/todo");
+    },
+    getDevice(currentWidth) {
+      if (currentWidth >= 750) {
+        this.screen = "pc";
+      } else if (currentWidth < 750) {
+        this.screen = "mobile";
+      }
+    },
+    getWidth() {
+      let currentWidth = document.body.clientWidth;
+      this.getDevice(currentWidth);
+    },
+    getResize() {
+      window.onresize = () => {
+        let currentWidth = document.body.clientWidth;
+        this.getDevice(currentWidth);
+      };
     }
+    
   },
   computed: {
     //获取登陆状态
@@ -103,15 +143,10 @@ export default {
     }
   },
   created: function() {
-    this.user = sessionStorage.getItem("username");
-    window.onresize = () => {
-      let currentWidth = document.body.clientWidth;
-      if (currentWidth >= 750) {
-        this.screen = "pc";
-      } else if (currentWidth < 750) {
-        this.screen = "mobile";
-      }
-    };
+    this.user = this.$Cookie.get("username");
+    this.screen = document.body.clientWidth;
+    this.getWidth();
+    this.getResize();
   }
 };
 </script>
@@ -167,6 +202,23 @@ header {
   .logout {
     height: 60px;
     padding: 7px;
+  }
+}
+.el-dropdown-link {
+  cursor: pointer;
+  color: #409eff;
+}
+.el-icon-arrow-down {
+  font-size: 12px;
+}
+.mobileWrapper {
+  
+  position: fixed;
+  right: 6%;
+  top: 3%;
+  padding: 5px;
+  .el-icon-s-fold {
+    font-size: 30px;
   }
 }
 </style>

@@ -10,6 +10,7 @@ import './assets/less/reset.css'
 import './assets/less/common.css'
 import axios from 'axios'
 import Cookie from 'js-cookie'
+import checkDevice from './utiles/checkDevice.js'
 
 axios.defaults.baseURL = 'http://192.168.1.200:3000'
 //请求拦截，每次发送请求前，都要把token写入请求头
@@ -30,22 +31,27 @@ Vue.use(mavonEditor)
 
 Vue.prototype.$axios = axios
 Vue.prototype.$Cookie = Cookie
+Vue.prototype.$checkDevice = checkDevice
 
 //登陆拦截，用于验证用户是否登陆并获得token
 router.beforeEach((to, from, next) => {
-	let token = Cookie.get('token')
-	// console.log(token)
-	if (token) {
-		store.commit('changeSignState', 1)
-		next()
-	} else {
-		if (to.path === '/login') {
-			next()
-		} else if (to.path === '/signup') {
+	if (to.meta.requireAuth) {
+		let token = Cookie.get('token')
+		// console.log(token)
+		if (token) {
+			store.commit('changeSignState', 1)
 			next()
 		} else {
-			next({ path: '/login' })
+			if (to.path === '/login') {
+				next()
+			} else if (to.path === '/signup') {
+				next()
+			} else {
+				next({ path: '/login' })
+			}
 		}
+	} else {
+		next()
 	}
 })
 

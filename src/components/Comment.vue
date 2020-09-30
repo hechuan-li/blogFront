@@ -98,6 +98,12 @@ export default {
          this.getCommentList()
         }
       })
+    },
+    checkStatus(){
+      let token = this.$Cookie.get('token')
+      if(token){
+        this.getUserInfo()
+      }
     }
   },
   computed:{
@@ -115,7 +121,7 @@ export default {
     }
     this.article_id = this.$route.params.id
     this.getCommentList()
-    this.getUserInfo()
+    this.checkStatus()
   }
 };
 </script>

@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import CommonLayout from '../components/CommonLayout.vue'
+import mobileComponents from '../components/CommonLayout.vue'
+
 
 Vue.use(VueRouter)
 
@@ -23,13 +25,19 @@ const routes = [
 			},
 			{
 				path: '/blog',
-				name:'article',
+				name: 'article',
 				component: () => import('@/views/Blogs.vue'),
+				meta: {
+					requireAuth: true,
+				},
 			},
 			{
 				path: '/blog/addArticle/:id',
 				name: 'addArticle',
 				component: () => import('@/views/AddArticle.vue'),
+				meta: {
+					requireAuth: true,
+				},
 			},
 			{
 				path: '/spider',
@@ -48,6 +56,10 @@ const routes = [
 	{
 		path: '/signup',
 		component: () => import('@/views/SignUp.vue'),
+	},
+	{
+		path: '/mobile',
+		component: mobileComponents,
 	},
 ]
 
