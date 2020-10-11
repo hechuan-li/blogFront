@@ -55,7 +55,6 @@ export default {
       })
       this.article = detailInfo.data.article
       this.authInfo = detailInfo.data.author
-      console.log(detailInfo)
     }
   },
   created() {

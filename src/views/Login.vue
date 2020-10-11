@@ -1,6 +1,7 @@
 <template>
   <div class="login-box">
-    <div class="login-box-main">
+     <transition name="el-zoom-in-center">
+    <div class="login-box-main transition-box"  v-show="show2" >
       <h2>Login Your Account</h2>
       <el-form
         :model="ruleForm"
@@ -31,15 +32,16 @@
           <el-button
             type="primary"
             @click="submitForm('ruleForm')"
-            size="medium"
-            >Submit</el-button
-          >
-          <el-button @click="resetForm('ruleForm')">Reset</el-button>
-          <el-button @click="signUp" type="warning">Sign Up</el-button>
+            size="small"
+            >Sign In</el-button>
+          <el-button @click="resetForm('ruleForm')" size="small">Reset</el-button>
+          <el-button @click="signUp" type="warning" size="small">Sign Up</el-button>
         </el-form-item>
       </el-form>
     </div>
+    </transition>
     <div v-loading.fullscreen.lock="loading"></div>
+    
   </div>
 </template>
 
@@ -58,6 +60,7 @@ export default {
       }
     };
     return {
+      show2: true,
       loading: false,
       status: 1,
       ruleForm: {
@@ -89,13 +92,15 @@ export default {
               Cookie.set("token", status.token);
               Cookie.set("username", status.username);
               Cookie.set("head_img", status.head_img);
+              Cookie.set("user_id", status.user_id);
               this.$store.commit("setToken", status.token);
               sessionStorage.setItem("username", status.username);
               setTimeout(() => {
                 this.loading = false;
                 this.$store.commit("changeSignState", 1);
                 this.$router.push("/");
-              }, 1000);
+              }, 500);
+              this.show2 = false
             } else if (status.code === "-2") {
               this.loading = false;
               alert(status.msg);
@@ -111,7 +116,10 @@ export default {
       this.$refs[formName].resetFields();
     },
     signUp() {
-      this.$router.push("/signup");
+      this.show2 = false
+      setTimeout(() => {
+        this.$router.push("/signup");
+      }, 500);
     }
   }
 };
@@ -129,6 +137,10 @@ export default {
     .formItem .el-form-item__label {
       color: #fff;
     }
+    .el-input__inner{
+      text-align: center;
+    }
   }
 }
+ 
 </style>

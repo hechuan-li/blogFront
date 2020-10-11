@@ -49,14 +49,22 @@
             </div>
           </el-col>
           <el-col :span="2" class="logout" v-if="this.user">
-            <el-button type="danger" size="mini" @click="logout">Log out</el-button>
+            <el-button type="danger" size="mini" @click="logout"
+              >Log out</el-button
+            >
           </el-col>
           <el-col :span="2" class="logout" v-else>
-            <el-button type="primary" size="mini" @click="login"> Login </el-button>
+            <el-button type="primary" size="mini" @click="login">
+              Login
+            </el-button>
           </el-col>
         </el-row>
       </div>
+
+      <!-- mobile page -->
       <div class="mobileWrapper" v-show="this.screen === 'mobile'">
+        <img :src="logo" alt="" class="logo-mobile" />
+        <span class="welcome">Welcome, {{ this.user }}</span>
         <el-dropdown>
           <span class="el-dropdown-link"><i class="el-icon-s-fold"></i> </span>
           <el-dropdown-menu slot="dropdown">
@@ -79,7 +87,10 @@
               >
             </el-dropdown-item>
             <el-dropdown-item>
-              <i class="el-icon-switch-button" @click="logout">Log out</i>
+              <i class="el-icon-switch-button" @click="logout" v-if="this.user"
+                >Log out</i
+              >
+              <i class="el-icon-switch-button" @click="login" v-else>Login</i>
             </el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
@@ -89,13 +100,14 @@
 </template>
 
 <script>
-// const Cookie = 'js-cookie'
+import logo from "../assets/img/logo.png";
 export default {
   data() {
     return {
       activeIndex: "1",
       user: "",
-      screen: ""
+      screen: "",
+      logo: logo
     };
   },
   methods: {
@@ -106,47 +118,41 @@ export default {
       this.$Cookie.remove("token");
       this.$Cookie.remove("username");
       this.$Cookie.remove("head_img");
+      this.$Cookie.remove("user_id");
       location.reload();
     },
-    login(){
-      this.$router.push('/login')
+    login() {
+      this.$router.push("/login");
     },
     goSpider() {
       this.$router.push("/spider");
     },
     goToDo() {
-      this.$router.push("/todo");
-    },
-    getDevice(currentWidth) {
-      if (currentWidth >= 750) {
-        this.screen = "pc";
-      } else if (currentWidth < 750) {
-        this.screen = "mobile";
+      let user_id = this.$Cookie.get('user_id')
+      if(user_id){
+        this.$router.push({path: "/todo", query:{id:user_id}});
+      }else{
+        this.$router.push("/login");
       }
-    },
-    getWidth() {
-      let currentWidth = document.body.clientWidth;
-      this.getDevice(currentWidth);
-    },
-    getResize() {
-      window.onresize = () => {
-        let currentWidth = document.body.clientWidth;
-        this.getDevice(currentWidth);
-      };
     }
-    
   },
   computed: {
     //获取登陆状态
     isSignIn() {
       return this.$store.state.isSignIn;
+    },
+    getCurrentScreen() {
+      return this.$store.state.screen;
+    }
+  },
+  watch: {
+    getCurrentScreen(val) {
+      this.screen = val;
     }
   },
   created: function() {
     this.user = this.$Cookie.get("username");
-    this.screen = document.body.clientWidth;
-    this.getWidth();
-    this.getResize();
+    this.screen = this.$store.state.screen;
   }
 };
 </script>
@@ -212,13 +218,26 @@ header {
   font-size: 12px;
 }
 .mobileWrapper {
-  
-  position: fixed;
-  right: 6%;
-  top: 3%;
-  padding: 5px;
+  .welcome {
+    display: inline-block;
+    padding-top: 20px;
+  }
+  .el-dropdown {
+    position: fixed;
+    right: 6%;
+    top: 3%;
+    padding: 5px;
+  }
   .el-icon-s-fold {
     font-size: 30px;
   }
+}
+.logo-mobile {
+  position: fixed;
+  left: 6%;
+  top: 3%;
+  width: 6%;
+  border-radius: 3px;
+  opacity: 0.7;
 }
 </style>

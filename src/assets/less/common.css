@@ -8,7 +8,6 @@
   padding: 10px 0;
   color: #2d2d2d;
   border-radius: 10px;
-  box-shadow: 15px 5px 30px #eb0202, 0 0 30px rgba(10, 10, 0, 0.1) inset;
   box-sizing: border-box;
   background-color: rgba(219, 219, 219, 0.815);
   overflow-x: hidden;
@@ -17,4 +16,47 @@
 }
 textarea {
   resize: none;
+}
+.color-button {
+  width: 100px;
+  /*宽*/
+  height: 60px;
+  /*高*/
+  text-align: center;
+  /*字体水平居中*/
+  font-size: 18px;
+  /*字体大小*/
+  line-height: 30px;
+  /*行高*/
+  color: #fff;
+  border: none;
+  text-transform: uppercase;
+  /*字体大写*/
+  text-decoration: none;
+  /*字体增加装饰：去除下划线*/
+  font-family: sans-serif;
+  /*非衬线体*/
+  box-sizing: border-box;
+  /*盒模型大小规则*/
+  background: linear-gradient(90deg, #03a9f4, #f441a5, #ffeb3b, #03a9f4, #f441a5, #ffeb3b, #03a9f4);
+  /*渐变背景*/
+  border-radius: 20px;
+  /*边框圆角*/
+  background-size: 400%;
+  /*背景大小*/
+  z-index: 1;
+  /*层叠定位*/
+  animation: animate 8s linear infinite alternate;
+}
+@keyframes animate {
+  0% {
+    background-position: 0%;
+    /*修改背景定位，实现渐变色炫光*/
+  }
+  50% {
+    background-position: 100%;
+  }
+  100% {
+    background-position: 0%;
+  }
 }

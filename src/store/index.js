@@ -7,7 +7,8 @@ export default new Vuex.Store({
   state: {
     isSignIn: 0,
     token: '',
-    userName:''
+    userName: '',
+    screen:''
   },
   mutations: {
     changeSignState(state,n) {
@@ -15,7 +16,13 @@ export default new Vuex.Store({
     },
     setToken(state,token) {
       state.token = token
+    },
+    setScreen(state, d) {
+      state.screen = d
     }
 
-  }
+  },
+  // actions: {
+  //   setScreen()
+  // }
 });
