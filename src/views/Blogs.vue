@@ -2,7 +2,7 @@
   <div>
     <div class="wrapper">
       <div class="content">
-        <h2>article list</h2>
+        <h2>Article List</h2>
         <el-button
           type="primary"
           icon="el-icon-plus"

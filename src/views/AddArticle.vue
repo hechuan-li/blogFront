@@ -57,7 +57,7 @@ export default {
             content: this.article_content
           }
         }).then(res=>{
-          console.log(res);
+          console.error(res);
         })
       }
     },

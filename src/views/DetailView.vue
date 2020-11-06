@@ -39,7 +39,7 @@ export default {
     return {
       article: {
         title:'',
-        content:'',
+        content:"",
         publish_date:'',
         user_id: Number
       },

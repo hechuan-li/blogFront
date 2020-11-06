@@ -78,16 +78,24 @@
     <el-button type="primary" @click="show2 = !show2">add new</el-button>
     <div class="todo-container">
       <div class="urgent todo-container-item">
-        <ToDoBox :message="this.level0"> Urgent: {{this.level0.length}} jobs</ToDoBox>
+        <ToDoBox :message="this.level0">
+          Urgent: {{ this.level0.length }} jobs</ToDoBox
+        >
       </div>
       <div class="processing todo-container-item">
-        <ToDoBox :message="this.level1">Current Processing: {{this.level1.length}} jobs</ToDoBox>
+        <ToDoBox :message="this.level1"
+          >Current Processing: {{ this.level1.length }} jobs</ToDoBox
+        >
       </div>
       <div class="longTerm todo-container-item">
-        <ToDoBox :message="this.level2">Long-Term: {{this.level2.length}} jobs</ToDoBox>
+        <ToDoBox :message="this.level2"
+          >Long-Term: {{ this.level2.length }} jobs</ToDoBox
+        >
       </div>
       <div class="done todo-container-item">
-        <ToDoBox :message="this.level3">Done: {{this.level3.length}} jobs</ToDoBox>
+        <ToDoBox :message="this.level3"
+          >Done: {{ this.level3.length }} jobs</ToDoBox
+        >
       </div>
     </div>
   </div>
@@ -99,6 +107,8 @@ export default {
   components: {
     ToDoBox
   },
+  props: ["message"],
+  inject: ["reload"],
   data: function() {
     return {
       show2: false,
@@ -124,13 +134,24 @@ export default {
       this.form.percentage = value;
     },
     postToDo() {
-      console.log(this.form);
-      this.$axios.post("/api/todo/add", {
-        params: {
-          form: this.form,
-          user_id: this.user_id
-        }
-      });
+      this.$axios
+        .post("/api/todo/add", {
+          params: {
+            form: this.form,
+            user_id: this.user_id
+          }
+        })
+        .then(val => {
+          console.log(val.status);
+          if (val.status === 200) {
+            this.reload();
+            this.$message({
+              message: "added new task",
+              type: "success"
+            });
+          }
+        });
+
       this.show2 = false;
     },
     getList() {
@@ -143,14 +164,19 @@ export default {
         .then(value => {
           let allList = value.data.list;
           for (let i in allList) {
-            if (allList[i].level === 0) {
-              this.level0.push(allList[i]);
-            } else if (allList[i].level === 1) {
-              this.level1.push(allList[i]);
-            } else if (allList[i].level === 2) {
-              this.level2.push(allList[i]);
-            } else if (allList[i].level === 3) {
-              this.level3.push(allList[i]);
+            switch (allList[i].level){
+              case 0:
+                this.level0.push(allList[i]);
+                break;
+              case 1: 
+                this.level1.push(allList[i]);
+                break;
+              case 2: 
+                this.level2.push(allList[i]);
+                break;
+              case 3: 
+                this.level3.push(allList[i]);
+                break;
             }
           }
         });
@@ -198,7 +224,7 @@ export default {
     display: flex;
     flex-flow: row wrap;
     justify-content: center;
-    border: 2px solid red;
+    // border: 2px solid red;
     margin: 5px auto;
     overflow-x: hidden;
     overflow-y: scroll;
@@ -208,7 +234,7 @@ export default {
       width: 40%;
       height: 320px;
       margin: 20px 50px;
-      border: 2px solid green;
+      // border: 2px solid green;
     }
   }
 }

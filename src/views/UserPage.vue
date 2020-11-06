@@ -16,7 +16,7 @@
           <el-upload
             class="upload-demo"
             drag
-            action="http://192.168.1.100:3000/api/users/upload"
+            action="http://3.23.127.60:3001/api/users/upload"
             multiple
             :on-success="handleAvatarSuccess"
             :before-upload="beforeAvatarUpload"
@@ -62,22 +62,25 @@ export default {
   },
   methods: {
     handleAvatarSuccess(res) {
+      console.log(res);
       this.form.imgUrl = res.data
     },
     beforeAvatarUpload(file) {
-      const isJPG = file.type === "image/jpeg";
+      // const isJPG = file.type === "image/jpeg";
       const isLt2M = file.size / 1024 / 1024 < 2;
 
-      if (!isJPG) {
-        this.$message.error("上传头像图片只能是 JPG 格式!");
-      }
+      // if (!isJPG) {
+      //   this.$message.error("上传头像图片只能是 JPG 格式!");
+      // }
       if (!isLt2M) {
         this.$message.error("上传头像图片大小不能超过 2MB!");
       }
-      return isJPG && isLt2M;
+      // return isJPG && isLt2M;
+      return isLt2M;
     },
     submit() {
-      console.log("submit");
+       
+      this.form.username = Cookie.get('username')
       this.$axios.post('/api/users/updateUserInfo',this.form).then(res=>{
         if(res.data.code === 0){
           this.$message({
@@ -85,7 +88,7 @@ export default {
             type:'success'
           })
         }
-        setTimeout(()=>{location.reload()},1000)
+        // setTimeout(()=>{location.reload()},1000)
       })
     },
     cancel() {
@@ -93,7 +96,7 @@ export default {
     },
     getUerInfo(){
       let user = Cookie.get('username')
-      // this.form.username = user
+      this.form.username = user
       this.$axios.get('/api/users/info',{params:{username:user}}).then(res=>{
         if(res.data.code === 0){
           this.form.nickname = res.data.msg.nickname

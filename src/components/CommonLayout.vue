@@ -13,19 +13,30 @@ export default {
   components:{
     CommonHeader,
     CommonFooter
-  }
+  },
+  metaInfo: {
+      title: "Dan's Blog",
+      meta: [{                 // set meta
+        name: "description",
+        content: "hechuanli, daniel, my blog, demo blog, blog, personal blog, dan's blog, hechuan li, demo"
+      }],
+      link: [{                 // set link
+        rel: "dan's blog",
+        href: 'https://3.23.127.60'
+      }]
+    }
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="less">
-.container{
+.container {
   margin-top: 80px;
   position: relative;
   overflow: hidden;
 }
 
-footer{
+footer {
   position: fixed;
   bottom: 0;
   left: 0;
@@ -34,7 +45,7 @@ footer{
   padding: 15px 0;
   width: 100%;
   color: #bbb;
-  background-color: rgba(10, 8, 8,0.1);
-  box-shadow: 0 -2px 4px 1px rgba(0, 0, 0, 0,0.5);
+  background-color: rgba(10, 8, 8, 0.1);
+  box-shadow: 0 -2px 4px 1px rgba(0, 0, 0, 0, 0.5);
 }
 </style>

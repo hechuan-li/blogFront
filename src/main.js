@@ -10,16 +10,20 @@ import './assets/less/reset.css'
 import './assets/less/common.css'
 import axios from 'axios'
 import Cookie from 'js-cookie'
+import MetaInfo from 'vue-meta-info'
 import checkDevice from './utiles/checkDevice.js'
 
-axios.defaults.baseURL = 'http://192.168.1.200:3000'
+axios.defaults.baseURL = 'http://3.23.127.60:3001'
+// axios.defaults.baseURL = 'http://localhost:3001'
 //请求拦截，每次发送请求前，都要把token写入请求头
 axios.interceptors.request.use(function(config) {
 	// 在发送请求之前判断是否有token，并把token写入请求头
 	let token = Cookie.get('token')
 
+	// if (config.method == 'post') {
+	// 	config.data = qs.stringify(config.data)
+	// }
 	if (token) {
-		console.log('准备写入请求头')
 		config.headers['Authorization'] = `Bearer ${token}`
 	}
 	return config
@@ -28,6 +32,7 @@ axios.interceptors.request.use(function(config) {
 Vue.config.productionTip = false
 Vue.use(ElementUI)
 Vue.use(mavonEditor)
+Vue.use(MetaInfo)
 
 Vue.prototype.$axios = axios
 Vue.prototype.$Cookie = Cookie

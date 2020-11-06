@@ -96,7 +96,6 @@ export default {
           this.$axios
             .post("/api/users/register", this.ruleForm)
             .then(res => { 
-              console.log(res);
               let status = res.data.code;
               if (status === "0") {
                 alert("submit!");
@@ -106,7 +105,6 @@ export default {
               }
             });
         } else {
-          console.log("error submit!!");
           return false;
         }
       });

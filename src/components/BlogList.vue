@@ -52,7 +52,6 @@ export default {
       this.$axios.get("/api/article/allArticle").then(value => {
         if (value.data.code === 0) {
           this.article = value.data.list;
-          console.log(this.article);
         }
       });
     },

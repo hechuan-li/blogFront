@@ -114,7 +114,6 @@ export default {
       }
     },
     modifyItem(item) {
-      console.log(item);
 
       this.$axios
         .post("/api/todo/update", {
@@ -123,7 +122,6 @@ export default {
           id: item.id
         })
         .then(val => {
-          console.log(val);
           this.$message({
             message: val.data.msg,
             type: "success"
@@ -131,23 +129,13 @@ export default {
         });
     },
     DoneJob(item) {
-      console.log(item);
       this.$axios
         .post("/api/todo/update", {
           id: item.id,
           level: 3
         })
         .then(val => {
-          console.log(val);
-
           if (val.data.code === 0) {
-            // for (let i in this.listInfo) {
-            //   if (this.listInfo[i].id === item.id) {
-            //     this.$set(this.listInfo[i], "level", 3);
-            //   }
-            // }
-            // this.$forceUpdate();
-            // location.reload();
             this.reload()
           }
         });
@@ -188,9 +176,5 @@ export default {
 .el-progress--dashboard {
   margin: 0 auto;
 }
-// .el-collapse-item__header {
-//   background-color: #0b090d;
-//   opacity: 0.5;
-//   color: #fff;
-// }
+
 </style>
